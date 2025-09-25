@@ -36,13 +36,19 @@ body{
     padding-top: 5px;
     padding-left: 10px;
     border-radius: 10px;
+    cursor: pointer;
     /* margin-left: 100px; */
 }
 
 .real{
     display: flex;
     gap: 10px;
+    position: relative; /* 👈 THIS LINE fixes the dropdown position */
+  
+ 
 }
+
+
 
 .down{
     border: none;
@@ -62,6 +68,7 @@ body{
 .headimg2{
     height: 40px;
     width: 40px;
+    cursor: pointer;
     /* margin-left: 20px; */
 }
 
@@ -76,6 +83,7 @@ body{
     outline: none;
     border-radius: 5px;
     text-align: center;
+    cursor: pointer;
     /* align-self: center; */
 }
 
@@ -92,6 +100,7 @@ body{
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     text-align: center;
+    cursor: pointer;
 }
 
 .graph{
@@ -130,6 +139,7 @@ body{
     border-radius: 5px;
     color: white;
     border: none;
+    cursor: pointer;
     font-size: 20px;
     text-align: center;
 }
@@ -142,6 +152,7 @@ body{
     font-size: 20px;
     text-align: center;
     border: none;
+    cursor: pointer;
     border-radius: 5px;
 }
 
@@ -181,6 +192,7 @@ body{
     color: white;
     display: block;
     transition: 0.3s;
+    
 
 }
 
@@ -250,6 +262,110 @@ body{
   flex-direction: column;
   gap: 10px;
 }
+
+/* Dropdown attached to headimg2 */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 5px); /* 5px below the image */
+  right: 20px;           /* align near right side */
+  background-color: blue;
+  border-radius: 6px;
+  min-width: 150px;
+  width: 250px;
+  height: 200px;
+  /* margin: 40px; */
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  overflow: hidden;
+
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  z-index: 1000;
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;  /* align to the right edge of headimg2 */
+  left: auto;
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+/* Show state */
+.dropdown-menu.show {
+  max-height: 500px;
+  opacity: 1;
+}
+
+/* Dropdown items */
+.dropdown-menu a {
+  display: block;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+  background-color: rgb(1, 1, 36);
+}
+
+.quick{
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.make{
+    margin-bottom: 5px;
+}
+
+.pay{
+    margin-top: 10px;
+    height: 30px;
+    /* width: 150px; */
+    background-color: rgb(1, 1, 36);
+    color: white;
+    border: none;
+    border-radius: 5px;
+
+}
+
+.pay:hover{
+    background-color: white;
+    color: blue;
+}
+
+.amt{
+    height: 30px;
+    /* width: 150px; */
+    outline: none;
+    color: blue;
+    border: none;
+    padding: 5px;
+    background-color: white;
+}
+
+#paymethod{
+    height: 30px;
+    background-color: white;
+    color: blue;
+    /* font-size: 20px; */
+    border: none;
+}
+
+/* Responsive widths */
+@media (max-width: 767px) {
+  .dropdown-menu { min-width: 120px; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dropdown-menu { min-width: 180px; }
+}
+
+@media (min-width: 1024px) {
+  .dropdown-menu { min-width: 200px; }
+}
+
 
 /* ---------- Tablet screens ---------- */
 @media (min-width: 768px) {

@@ -1,0 +1,178 @@
+body{
+    background-color: rgb(1, 1, 36);
+    color: white;
+    font-family: 'sans-serif';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+
+    
+}
+
+.name{
+    font-family: sans-serif;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.inps{
+    display: flex;
+    flex-direction: column;gap: 20px;
+    justify-content: center;
+    /* margin-top: 40px; */
+}
+
+.inp{
+    height: 50px;
+    border-radius: 10px;
+    font-size: 27px;
+    padding: 10px;
+}
+
+.checkbox{
+    display: flex;
+    justify-content: center;
+    gap: 10px
+    ;
+}
+
+.read{
+    font-size: 20px;
+    /* text-align: center; */
+    font-family: sans-serif;
+}
+
+.box{
+    height: 70px;
+    width: 30px;
+    border-radius: 10px;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.register{
+    height: 45px;
+    width: 350px;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background-color: blue;
+    color: white;
+    border: none;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-top: 30px;
+}
+
+.register:hover{
+    background-color: white;
+    color: blue;
+}
+
+.next{
+    font-family: sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+.next a {
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.next a:hover{
+    text-decoration: underline;
+    color: blueviolet;
+}
+
+
+/* ✅ Mobile-first (your current styles stay the same) */
+
+
+/* ✅ Tablet screens (≥768px and ≤1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  body {
+    padding: 20px;
+  }
+
+  .name {
+    font-size: 40px;
+    margin-top: 30px;
+  }
+
+  .inp {
+    height: 60px;
+    font-size: 28px;
+  }
+
+  .box {
+    height: 80px;
+    width: 40px;
+    font-size: 28px;
+  }
+
+  .register {
+    width: 400px;
+    font-size: 22px;
+  }
+
+  .next {
+    font-size: 22px;
+  }
+
+  .next a {
+    font-size: 22px;
+  }
+}
+
+
+/* ✅ Laptop/Desktop screens (≥1024px) */
+@media (min-width: 1024px) {
+  body {
+    flex-direction: row;           /* switch to side-by-side layout */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px;
+  }
+
+  .name {
+    font-size: 50px;
+    text-align: center;
+  }
+
+  .inps {
+    flex-direction: column;
+    gap: 25px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .inp {
+    height: 65px;
+    font-size: 26px;
+  }
+
+  .box {
+    height: 90px;
+    width: 50px;
+    font-size: 30px;
+  }
+
+  .register {
+    width: 450px;
+    font-size: 24px;
+  }
+
+  .next {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .next a {
+    font-size: 24px;
+  }
+}

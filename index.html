@@ -3,111 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Venus</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Home</title>
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <div class="mainpage">
+    <div>
         <div class="head">
-            <img src="/frontend/assessts/icons8-add-administrator-50.png" alt="" class="headimg" onclick="openNav()">
-            <div class="real">
-                <div class="amount">
-                    <p>Real USD</p>
-                    <h1>0.00 <span class="down">🔽</span></h1>
-                
-                </div>
-                <img src="/frontend/assessts/icons8-save-50.png" alt="" class="headimg2">
-                </div>
-        </div>
-        <div>
-            <select name="" id="trade">
-                <option value="">EUR/GBP</option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="graph"></div>
-        <div>
-            <div class="time-amount">
-                <label for="time">Time</label>
-                    <select id="timer">
-                        <option value="">24 Hours</option>
-                        <option value="">10 Hours</option>
-                        <option value="">5 Hours</option>
-                        <option value="">1 Hour</option>
-                        <option value="">30 Minutes</option>
-                        <option value="">15 Minutes</option>
-                        <option value="">10 Minutes</option>
-                        <option value="">5 Minutes</option>
-                        <option value="">1 Minute</option>
-                        <option value="">30 seconds</option>
-                    </select>
-
-                    <label for="Amount" style="margin-top: 15px;">Amount in USD</label>
-                        <select name="" id="amount">
-                            <option value="">$35</option>
-                            <option value="">$30</option>
-                            <option value="">$25</option>
-                            <option value="">$20</option>
-                            <option value="">$15</option>
-                            <option value="">$10</option>
-                            <option value="">$5</option>
-                            <option value="">$3</option>
-                            <option value="">$2</option>
-                            <option value="">$1</option>
-                        </select>
-            </div>
-            <p class="profit">Profit +95%</p>
-            <div class="buy-sell">
-                <button class="buy">⬆ BUY</button>
-                <p class="or">OR</p>
-                <button class="sell">⬇ SELL</button>
-            </div>
+            <img src="/frontend/assessts/logo.png" alt="" class="logo">
+            <h1 class="name">Nexus</h1>
         </div>
 
-        <div id="mySidenav" class="sidenav">
-            <span class="closebtn" onclick="closeNav()">&times;</span>
-            <button class="deposit">Deposit</button>
-            <button class="withdraw" style="margin-bottom: 10px;">Withdraw</button>
-            <a href="#">Trading</a>
-            <a href="#">Finance</a>
-            <a href="#">Profile</a>
-            <a href="#">Help</a>
-            <a href="#">Setting</a>
-            <a href="#">Logout</a>
-        </div>
+        <p class="wel">Welcome to the cutting edge trading platform!</p>
+
+        <img src="/frontend/assessts/image.png" alt="" class="img">
+        <button class="register" onclick="gotoregister()">Registration</button>
+        <p class="next">Already registered?<a href="signup.html" class="">Sign in</a></p>
     </div>
 
     <script>
-        function openNav() {
-            document.getElementById('mySidenav').style.width = "250px";
+        function gotoregister(){
+            location.href = "signup.html"
         }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
-        const links = ``
-        document.querySelectorAll(".sidenav a");
-        links.forEach(link => {
-            link.addEventListener("click",
-                function() {
-                    links.forEach(l => l.classList.remove("active"));
-                        this.classList.add("active")
-                    
-                })
-            
-        })
     </script>
 </body>
 </html>
-
