@@ -10,6 +10,21 @@ body{
     
 }
 
+.head{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+}
+
+.logo{
+    height: 60px;
+    width: 60px;
+    /* margin-top: 30px; */
+    font-family: sans-serif;
+}
+
 .name{
     font-family: sans-serif;
     font-size: 30px;
@@ -82,6 +97,7 @@ body{
     font-family: sans-serif;
     font-size: 20px;
     text-align: center;
+    
 }
 
 .next a {
@@ -93,6 +109,23 @@ body{
 .next a:hover{
     text-decoration: underline;
     color: blueviolet;
+}
+
+.back-link {
+  display: inline-block;
+  margin: 15px;
+  font-size: 18px;
+  color: white;
+  text-decoration: none;
+  /* background: blue; */
+  padding: 8px 16px;
+  font-family: sans-serif;
+  border-radius: 5px;
+}
+
+.back-link:hover {
+  background: white;
+  color: blue;
 }
 
 
