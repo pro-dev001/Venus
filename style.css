@@ -227,14 +227,57 @@ body{
     color: darkblue;
 }
 
-/* .deposit{
-    height: 50px;
-    width: 150px;
-    font-size: 20px;
-    color: wheat;
-    background-color: transparent;
-    border: 2px solid rgb(1, 1, 36);
-    margin-left: 15px;
-} */
+/* Make selects and buttons responsive with 20px side padding */
+#trade,
+#timer,
+#amount,
+.buy,
+.sell {
+  width: calc(100% - 40px); /* 100% width minus 20px left + 20px right */
+  max-width: 600px;         /* prevent being too wide on large screens */
+  margin: 10px auto;        /* center with spacing */
+  display: block;
+}
+
+/* Graph also full width with 20px margin */
+.graph {
+  margin: 20px;
+  border-radius: 8px;
+}
+
+/* Keep Buy/Sell buttons stacked on small screens */
+.buy-sell {
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- Tablet screens ---------- */
+@media (min-width: 768px) {
+  #trade,
+  #timer,
+  #amount,
+  .buy,
+  .sell {
+    max-width: 500px;
+  }
+
+  .buy-sell {
+    flex-direction: row; /* side by side on tablets and up */
+    justify-content: center;
+    gap: 20px;
+  }
+}
+
+/* ---------- Laptop & Desktop ---------- */
+@media (min-width: 1024px) {
+  #trade,
+  #timer,
+  #amount,
+  .buy,
+  .sell {
+    max-width: 700px;
+  }
+}
+
 
 
