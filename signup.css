@@ -25,17 +25,22 @@ body{
 }
 
 .inp{
-    height: 50px;
+    height: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
     border-radius: 10px;
-    font-size: 27px;
+    font-size: 20px;
     padding: 10px;
+    outline: navy;
+    border: none;
 }
 
 .checkbox{
     display: flex;
     justify-content: center;
-    gap: 10px
-    ;
+    gap: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .read{
@@ -48,7 +53,7 @@ body{
     height: 70px;
     width: 30px;
     border-radius: 10px;
-    font-size: 30px;
+    font-size: 20px;
     padding: 10px;
 }
 
@@ -58,6 +63,8 @@ body{
     margin: 0 auto;
     text-align: center;
     display: block;
+    margin-left: 20px;
+    margin-right: 20px;
     background-color: blue;
     color: white;
     border: none;
