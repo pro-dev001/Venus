@@ -1,0 +1,240 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: 'sans-serif'; */
+}
+
+body{
+    background-color: rgb(1, 1, 36);
+    color: white;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.mainpage{
+    font-family: sans-serif;
+}
+
+.head{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin: 20px;
+    /* margin-bottom: 20px; */
+
+}
+
+.amount{
+    background-color: transparent;
+    border: 1px solid blue;
+    font-size: 12px;
+    color: white;
+    width: 100px;
+    height: 50px;
+    /* text-align: center; */
+    padding-top: 5px;
+    padding-left: 10px;
+    border-radius: 10px;
+    /* margin-left: 100px; */
+}
+
+.real{
+    display: flex;
+    gap: 10px;
+}
+
+.down{
+    border: none;
+    background-color: transparent;
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.headimg{
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+
+    /* margin-left: 20px; */
+}
+
+.headimg2{
+    height: 40px;
+    width: 40px;
+    /* margin-left: 20px; */
+}
+
+
+#timer, #amount {
+    border: 1px solid rgb(1, 1, 36);
+    background-color: blue;
+    color: white;
+    width: 370px;
+    height: 30px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    text-align: center;
+    /* align-self: center; */
+}
+
+#trade{
+    margin-left: 10px;
+    margin-bottom: 2px; 
+    border: 1px solid rgb(1, 1, 36);
+    background-color: blue;
+    color: white;
+    width: 250px;
+    height: 30px;
+    border: none;
+    outline: none;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    text-align: center;
+}
+
+.graph{
+    background-color: white;
+    height: 300px;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    margin-bottom: 30px;
+
+}
+
+.time-amount{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+
+.profit{
+    /* background-color: blue; */
+    /* width: 20px; */
+    color: white;
+    height: 30px;
+    /* width: 250px; */
+    margin-top: 15px;
+    text-align: center;
+}
+
+.buy{
+    background-color: green;
+    height: 40px;
+    width: 150px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    font-size: 20px;
+    text-align: center;
+}
+
+.sell{
+    background-color: red;
+    height: 40px;
+    width: 150px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+}
+
+.buy-sell{
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+    gap: 20px;
+
+}
+
+.or{
+    text-align: center;
+    align-self: center;
+}
+
+.sidenav{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: blue;
+    overflow-x: hidden;
+    transition: 0.4s;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sidenav a{
+    padding: 12px 24px;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 2;
+    color: white;
+    display: block;
+    transition: 0.3s;
+
+}
+
+.sidenav button{
+    padding: 14px 24px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    background-color: rgb(1, 1, 36);
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.sidenav button:hover{
+    background-color: white;
+    color: rgb(1, 1, 36);
+}
+
+.sidenav a:hover{
+    background-color: rgb(1, 1, 36);
+
+}
+
+.sidenav a.active{
+    background-color: rgb(1, 1, 36);
+}
+
+.sidenav .closebtn{
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 45px;
+    color: white;
+    cursor: pointer;
+    
+
+}
+
+.closebtn:hover{
+    color: darkblue;
+}
+
+/* .deposit{
+    height: 50px;
+    width: 150px;
+    font-size: 20px;
+    color: wheat;
+    background-color: transparent;
+    border: 2px solid rgb(1, 1, 36);
+    margin-left: 15px;
+} */
+
+
