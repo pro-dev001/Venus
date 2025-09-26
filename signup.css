@@ -52,7 +52,7 @@ body{
 
 .checkbox{
     display: flex;
-    justify-content: center;
+    justify-content: left;
     gap: 10px;
     margin-left: 20px;
     margin-right: 20px;

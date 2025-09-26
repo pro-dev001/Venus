@@ -1,0 +1,124 @@
+body {
+  background-color: rgb(1, 1, 36);
+  color: white;
+  font-family: 'sans-serif';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh; /* ensures vertical centering */
+}
+
+/* ----------- Head Section ----------- */
+.head {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.logo {
+  height: 50px;
+  width: 60px;
+  font-family: sans-serif;
+}
+
+.name {
+  font-family: sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
+.next{
+    font-family: sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+/* ----------- Back Link ----------- */
+.back-link {
+  display: inline-block;
+  margin: 10px;
+  font-size: 18px;
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  font-family: sans-serif;
+  border-radius: 5px;
+}
+
+.back-link:hover {
+  background: white;
+  color: blue;
+}
+
+/* ----------- Inputs ----------- */
+.inps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.inp {
+  height: 30px;
+  margin: 0 20px;
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 10px;
+  outline: navy;
+  border: none;
+}
+
+/* ----------- Register Button ----------- */
+.register {
+  height: 50px;
+  width: 90%;          /* mobile-first, takes most of screen */
+  max-width: 350px;    /* prevent being too wide */
+  margin: 30px auto;   /* always center horizontally */
+  text-align: center;
+  background-color: blue;
+  color: white;
+  border: none;
+  font-size: 20px;
+  border-radius: 5px;
+  display: block;
+}
+
+.register:hover {
+  background-color: white;
+  color: blue;
+}
+
+/* ----------- Responsive: Tablet ----------- */
+@media (min-width: 768px) {
+  .name {
+    font-size: 36px;
+  }
+  .inp {
+    height: 45px;
+    font-size: 22px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .register {
+    height: 55px;
+    font-size: 22px;
+    max-width: 400px;
+  }
+}
+
+/* ----------- Responsive: Laptop & Desktop ----------- */
+@media (min-width: 1024px) {
+  .name {
+    font-size: 42px;
+  }
+  .inp {
+    height: 50px;
+    font-size: 24px;
+    max-width: 600px;
+  }
+  .register {
+    height: 60px;
+    font-size: 24px;
+    max-width: 450px;
+  }
+}
