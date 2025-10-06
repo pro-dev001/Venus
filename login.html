@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log in</title>
-    <link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in</title>
+  <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <div class="regpage">
-        <a href="javascript:history.back()" class="back-link">⬅ Back</a>
-       <div class="head">
-            <img src="assessts/logo.png" alt="" class="logo">
-            <h1 class="name">Nexus</h1>
-        </div> 
+  <div class="regpage">
+    <a href="javascript:history.back()" class="back-link">⬅ Back</a>
+    <div class="head">
+      <img src="assessts/logo.png" alt="" class="logo">
+      <h1 class="name">Nexus</h1>
+    </div> 
+
     <h1 class="name">Log in</h1>
-    <p class="next">Not registered yet?<a href="signup.html">Sign up</a></p>
+    <p class="next">Not registered yet? <a href="signup.html">Sign up</a></p>
     <div class="inps">
-        <label for="Email" style="font-family: sans-serif; font-size: 25px; margin-top: 20px; margin-left: 20px;" >Email</label>
-            <input type="email" name="" id="" class="inp" required>
-        <label for="password" style="font-family: sans-serif; font-size: 25px; margin-top: 30px; margin-left: 20px;">Password</label>
-            <input type="password" name="" id="" class="inp" required>
+      <input type="email" class="inp email" required placeholder="Email">
+      <input type="password" class="inp password" required placeholder="Password">
     </div>
     <div class="checkbox">
-        <input type="checkbox" name="" id="" class="box" required>
-        <p class="read">Remember me</p>
+      <input type="checkbox" class="box" required>
+      <p class="read">Remember me</p>
     </div>
-    <a href="recover.html" class="recover">Password recovery</a>
-    <button class="register">Log in</button>
-        
-    </div>
+    <a href="reco.html" class="recover" style="margin: 20px;">Password recovery</a>
+    <button class="register" id="loginBtn">Log in</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

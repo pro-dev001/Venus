@@ -1,34 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
-    <link rel="stylesheet" href="signup.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign up</title>
+  <link rel="stylesheet" href="signup.css">
 </head>
 <body>
-    <div class="regpage">
-        <a href="javascript:history.back()" class="back-link">⬅ Back</a>
-
-        <div class="head">
-            <img src="assessts/logo.png" alt="" class="logo">
-            <h1 class="name">Nexus</h1>
-        </div> 
-        
+  <div class="regpage">
+    <a href="javascript:history.back()" class="back-link">⬅ Back</a>
+    <div class="head">
+      <img src="assessts/logo.png" alt="" class="logo">
+      <h1 class="name">Nexus</h1>
+    </div> 
+    
     <h1 class="name">Registration</h1>
-    <p class="next">Already registered?<a href="login.html">Log in</a></p>
+    <p class="next">Already registered? <a href="login.html">Log in</a></p>
     <div class="inps">
-        <label for="Email" style="font-family: sans-serif; font-size: 25px; margin-top: 20px; margin-left: 20px;" >Email</label>
-            <input type="email" name="" id="" class="inp" required>
-        <label for="password" style="font-family: sans-serif; font-size: 25px; margin-top: 30px; margin-left: 20px;">Password</label>
-            <input type="password" name="" id="" class="inp" required>
+      <input type="email" class="inp email" required placeholder="Email">
+      <input type="password" class="inp password" required placeholder="Password" style="margin-top: 30px;">
     </div>
     <div class="checkbox">
-        <input type="checkbox" name="" id="" class="box" required>
-        <p class="read">i have read and accepted the terms and conditions</p>
+      <input type="checkbox" class="box" required>
+      <p class="read">I have read and accepted the terms and conditions</p>
     </div>
-    <button class="register">Registration</button>
-        
-    </div>
+    <button class="register" id="signupBtn">Registration</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

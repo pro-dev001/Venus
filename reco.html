@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recovery</title>
-  <link rel="stylesheet" href="recovery.css">
+  <link rel="stylesheet" href="reco.css">
 </head>
 <body>
   <div class="recoverpage">
@@ -15,13 +15,11 @@
     </div> 
 
     <h1 class="name">Password recovery</h1>
-    <p class="next">Check your email, enter the confirmation code and set a new password</p>
+    <p class="next">Enter the e-mail address you provided during your registration</p>
     <div class="inps">
-      <input type="text" class="inp otp" required placeholder="Confirmation code">
-      <input type="password" class="inp newPassword" required placeholder="New password">
+      <input type="email" class="inp email" required placeholder="Your Email">
     </div>
-    <button class="register" id="verifyBtn">Change password</button>
-    <p class="next">Did not receive the mail? Check your spam filter</p>
+    <button class="register" id="resetBtn">Restore</button>
   </div>
 
   <script src="script.js"></script>

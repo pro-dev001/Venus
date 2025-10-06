@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venus</title>
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+    <div class="mainpage">
+        <div class="head">
+            <img src="assessts/image.png" alt="" class="headimg" onclick="openNav()">
+            <div class="real">
+                <div class="amount">
+                    <p>Demo USD</p>
+                    <h1>50,000 <span class="down">🔽</span></h1>
+                
+                </div>
+                <img src="assessts/icons8-save-50.png" alt="" class="headimg2">
+                <div class="dropdown-menu">
+                    <p class="quick">Top up your real account</p>
+                    <p class="make">Make a deposit to start earning</p>
+                    <label for="paymethod">Payment Method</label>
+                    <select name="" id="paymethod">
+                        <option value="">Bank Transfer(NGN)</option>
+                    </select>
+                    <label for="Amount" style="margin-top: 10px;">Amount</label>
+                    <input type="number" name="" id="payamt" class="amt" placeholder="Amount">
+                    <button class="pay" id="payBtn" onclick="gotopay()">Continue and pay $ <span id="payspan"></span></button>
+                </div>
+                </div>
+        </div>
+        <div>
+            <select name="" id="trade">
+               
+                <!-- Forex Pairs -->
+                <option value="EUR/USD">EUR/USD</option>
+                <option value="GBP/USD">GBP/USD</option>
+                <option value="USD/JPY">USD/JPY</option>
+                <option value="USD/CHF">USD/CHF</option>
+                <option value="AUD/USD">AUD/USD</option>
+                <option value="NZD/USD">NZD/USD</option>
+                <option value="EUR/GBP">EUR/GBP</option>
+                <option value="EUR/JPY">EUR/JPY</option>
+                <option value="GBP/JPY">GBP/JPY</option>
+                <option value="USD/CAD">USD/CAD</option>
+
+                <!-- Crypto Pairs -->
+                <option value="BTC/USD">BTC/USD</option>
+                <option value="ETH/USD">ETH/USD</option>
+                <option value="BNB/USD">BNB/USD</option>
+                <option value="SOL/USD">SOL/USD</option>
+                <option value="XRP/USD">XRP/USD</option>
+                <option value="DOGE/USD">DOGE/USD</option>
+                <option value="ADA/USD">ADA/USD</option>
+                <option value="LTC/USD">LTC/USD</option>
+                <option value="DOT/USD">DOT/USD</option>
+                <option value="SHIB/USD">SHIB/USD</option>
+            </select>
+        </div>
+        <div id="chart" class="graph">
+            
+        </div>
+        <div>
+            <div class="time-amount">
+                <label for="time">Time</label>
+                    <select id="timer">
+                        <option value="">24 Hours</option>
+                        <option value="">10 Hours</option>
+                        <option value="">5 Hours</option>
+                        <option value="">1 Hour</option>
+                        <option value="">30 Minutes</option>
+                        <option value="">15 Minutes</option>
+                        <option value="">10 Minutes</option>
+                        <option value="">5 Minutes</option>
+                        <option value="">1 Minute</option>
+                        <option value="">30 seconds</option>
+                    </select>
+
+                    <label for="Amount" style="margin-top: 15px;">Amount in USD</label>
+                        <select name="" id="amount">
+                            <option value="">$35</option>
+                            <option value="">$30</option>
+                            <option value="">$25</option>
+                            <option value="">$20</option>
+                            <option value="">$15</option>
+                            <option value="">$10</option>
+                            <option value="">$5</option>
+                            <option value="">$3</option>
+                            <option value="">$2</option>
+                            <option value="">$1</option>
+                        </select>
+            </div>
+            <p class="profit">Profit +95%</p>
+            <div class="buy-sell">
+                <button class="buy">⬆ BUY</button>
+                <p class="or">OR</p>
+                <button class="sell">⬇ SELL</button>
+            </div>
+        </div>
+
+        <div id="mySidenav" class="sidenav">
+            <span class="closebtn" onclick="closeNav()">&times;</span>
+            <button class="deposit">Deposit</button>
+            <button class="withdraw" style="margin-bottom: 10px;">Withdraw</button>
+            <a href="main.html">Real account</a>
+            <a href="demo.html">Demo account</a>
+            <a href="#">Profile</a>
+            <a href="#">Help</a>
+            <a href="#">Setting</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+async function loadChart() {
+  const pair = document.getElementById("trade").value.replace("/", "") + "=X";
+  let res = await fetch(`/chart?pair=${pair}&period=1d&interval=1m`);
+  let data = await res.json();
+  Plotly.newPlot("chart", JSON.parse(data.chart));
+}
+
+// Reload chart when user changes pair
+document.getElementById("trade").addEventListener("change", loadChart);
+window.onload = loadChart;
+
+// Example trade button
+document.querySelector(".buy").addEventListener("click", async () => {
+  const pair = document.getElementById("trade").value.replace("/", "") + "=X";
+  let res = await fetch("/trade", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ pair: pair, amount: 10, action: "buy", mode: "demo" })
+  });
+  let data = await res.json();
+  alert(data.result);
+});
+</script>
+
+    <script>
+        function openNav() {
+            document.getElementById('mySidenav').style.width = "250px";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+        const links = ``
+        document.querySelectorAll(".sidenav a");
+        links.forEach(link => {
+            link.addEventListener("click",
+                function() {
+                    links.forEach(l => l.classList.remove("active"));
+                        this.classList.add("active")
+                    
+                })
+            
+        })
+    </script>
+   <script>
+  const payamount = document.getElementById("payamt");
+  const payspan = document.getElementById("payspan");
+  const payBtn = document.getElementById("payBtn");
+
+  // Update span live as user types
+  payamount.addEventListener("input", () => {
+    payspan.textContent = payamount.value;
+  });
+
+  // On click validate
+  payBtn.addEventListener("click", () => {
+    if (payamount.value.trim() === "") {
+      alert("❌ Amount is required!");
+      payamount.focus();
+      return;
+    }
+    localStorage.setItem("payAmount", payamount.value);
+
+    // If not empty → go to pay.html
+    window.location.href = "pay.html";
+  });
+</script>
+   
+    <script src="./script.js" defer></script>
+</body>
+</html>
+

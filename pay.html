@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fund Wallet</title>
+  <link rel="stylesheet" href="pay.css">
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-link">⬅ Back</a>
+
+  <div class="fundpage">
+
+    <h1>Fund with Bank Transfer</h1>
+    <div>
+      <img src="assessts/circle-9360_256.gif" alt="" class="loader">
+      <p>We are waiting for your transaction</p>
+    </div>
+
+    <div class="paydiv">
+       <div class="paydetails">
+        <p>Ready to pay</p>
+        <p id="payer">N</p>
+      </div>
+      <div class="paydetails">
+        <p>Bank Name</p>
+        <p>PALMPAY</p>
+      </div>
+      <div class="paydetails">
+        <p>Account Name</p>
+        <p>IDRIS AYOMIDE</p>
+      </div>
+      <div class="paydetails">
+        <p>Account Number</p>
+        <p>8113307388</p>
+      </div>
+    </div>
+
+    <div>
+      <p>Kindly pay to the bank account above</p>
+      <button class="verify">I've transferred the money</button>
+    </div>
+  </div>
+
+  <!-- Popup dialog -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <p>Ok, let’s confirm your deposit...<br>
+      The amount will be added shortly.</p>
+      <button class="close-btn" id="closeBtn">Okay</button>
+    </div>
+  </div>
+
+  <script>
+    const verifyBtn = document.querySelector(".verify");
+    const popup = document.getElementById("popup");
+    const closeBtn = document.getElementById("closeBtn");
+
+    // show popup
+    verifyBtn.addEventListener("click", () => {
+      popup.classList.add("show");
+    });
+
+    // hide popup
+    closeBtn.addEventListener("click", () => {
+      popup.classList.remove("show");
+      location.href = "main.html"
+    });
+  </script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const payer = document.getElementById("payer");
+
+    // Get saved USD amount from localStorage
+    const storedAmount = localStorage.getItem("payAmount");
+
+    if (storedAmount) {
+      // Conversion rate
+      const rate = 1600; // 1 USD = ₦1600
+      const usd = Number(storedAmount);
+      const ngn = usd * rate;
+
+      // Show both USD and NGN
+      payer.textContent = `$${usd} = ₦${ngn.toLocaleString()}`;
+
+      // Clear after showing
+      localStorage.removeItem("payAmount");
+    } else {
+      payer.textContent = "No amount entered";
+    }
+  });
+</script>
+
+</body>
+</html>
