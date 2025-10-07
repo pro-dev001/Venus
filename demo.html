@@ -1,187 +1,578 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Venus</title>
-    <link rel="stylesheet" href="demo.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Venus Trading</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="mainpage">
-        <div class="head">
-            <img src="assessts/image.png" alt="" class="headimg" onclick="openNav()">
-            <div class="real">
-                <div class="amount">
-                    <p>Demo USD</p>
-                    <h1>50,000 <span class="down">🔽</span></h1>
-                
-                </div>
-                <img src="assessts/icons8-save-50.png" alt="" class="headimg2">
-                <div class="dropdown-menu">
-                    <p class="quick">Top up your real account</p>
-                    <p class="make">Make a deposit to start earning</p>
-                    <label for="paymethod">Payment Method</label>
-                    <select name="" id="paymethod">
-                        <option value="">Bank Transfer(NGN)</option>
-                    </select>
-                    <label for="Amount" style="margin-top: 10px;">Amount</label>
-                    <input type="number" name="" id="payamt" class="amt" placeholder="Amount">
-                    <button class="pay" id="payBtn" onclick="gotopay()">Continue and pay $ <span id="payspan"></span></button>
-                </div>
-                </div>
+  <div class="mainpage">
+    <div class="head">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300ff88'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='%23000' font-weight='bold'%3EV%3C/text%3E%3C/svg%3E" alt="Venus" class="headimg" />
+      <div class="real">
+        <div class="amount">
+          <p>Real USD</p>
+          <h1 id="balanceDisplay">1000.00 <span class="down">🔽</span></h1>
         </div>
-        <div>
-            <select name="" id="trade">
-               
-                <!-- Forex Pairs -->
-                <option value="EUR/USD">EUR/USD</option>
-                <option value="GBP/USD">GBP/USD</option>
-                <option value="USD/JPY">USD/JPY</option>
-                <option value="USD/CHF">USD/CHF</option>
-                <option value="AUD/USD">AUD/USD</option>
-                <option value="NZD/USD">NZD/USD</option>
-                <option value="EUR/GBP">EUR/GBP</option>
-                <option value="EUR/JPY">EUR/JPY</option>
-                <option value="GBP/JPY">GBP/JPY</option>
-                <option value="USD/CAD">USD/CAD</option>
-
-                <!-- Crypto Pairs -->
-                <option value="BTC/USD">BTC/USD</option>
-                <option value="ETH/USD">ETH/USD</option>
-                <option value="BNB/USD">BNB/USD</option>
-                <option value="SOL/USD">SOL/USD</option>
-                <option value="XRP/USD">XRP/USD</option>
-                <option value="DOGE/USD">DOGE/USD</option>
-                <option value="ADA/USD">ADA/USD</option>
-                <option value="LTC/USD">LTC/USD</option>
-                <option value="DOT/USD">DOT/USD</option>
-                <option value="SHIB/USD">SHIB/USD</option>
-            </select>
-        </div>
-        <div id="chart" class="graph">
-            
-        </div>
-        <div>
-            <div class="time-amount">
-                <label for="time">Time</label>
-                    <select id="timer">
-                        <option value="">24 Hours</option>
-                        <option value="">10 Hours</option>
-                        <option value="">5 Hours</option>
-                        <option value="">1 Hour</option>
-                        <option value="">30 Minutes</option>
-                        <option value="">15 Minutes</option>
-                        <option value="">10 Minutes</option>
-                        <option value="">5 Minutes</option>
-                        <option value="">1 Minute</option>
-                        <option value="">30 seconds</option>
-                    </select>
-
-                    <label for="Amount" style="margin-top: 15px;">Amount in USD</label>
-                        <select name="" id="amount">
-                            <option value="">$35</option>
-                            <option value="">$30</option>
-                            <option value="">$25</option>
-                            <option value="">$20</option>
-                            <option value="">$15</option>
-                            <option value="">$10</option>
-                            <option value="">$5</option>
-                            <option value="">$3</option>
-                            <option value="">$2</option>
-                            <option value="">$1</option>
-                        </select>
-            </div>
-            <p class="profit">Profit +95%</p>
-            <div class="buy-sell">
-                <button class="buy">⬆ BUY</button>
-                <p class="or">OR</p>
-                <button class="sell">⬇ SELL</button>
-            </div>
-        </div>
-
-        <div id="mySidenav" class="sidenav">
-            <span class="closebtn" onclick="closeNav()">&times;</span>
-            <button class="deposit">Deposit</button>
-            <button class="withdraw" style="margin-bottom: 10px;">Withdraw</button>
-            <a href="main.html">Real account</a>
-            <a href="demo.html">Demo account</a>
-            <a href="#">Profile</a>
-            <a href="#">Help</a>
-            <a href="#">Setting</a>
-            <a href="login.html">Logout</a>
-        </div>
+      </div>
     </div>
 
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script>
-async function loadChart() {
-  const pair = document.getElementById("trade").value.replace("/", "") + "=X";
-  let res = await fetch(`/chart?pair=${pair}&period=1d&interval=1m`);
-  let data = await res.json();
-  Plotly.newPlot("chart", JSON.parse(data.chart));
-}
+    <div>
+      <select id="trade">
+        <option value="EUR/USD">EUR/USD</option>
+        <option value="GBP/USD">GBP/USD</option>
+        <option value="USD/JPY">USD/JPY</option>
+        <option value="USD/CHF">USD/CHF</option>
+        <option value="AUD/USD">AUD/USD</option>
+        <option value="BTC/USD">BTC/USD</option>
+        <option value="ETH/USD">ETH/USD</option>
+        <option value="XRP/USD">XRP/USD</option>
+        <option value="LTC/USD">LTC/USD</option>
+        <option value="NZD/USD">NZD/USD</option>
+        <option value="EUR/GBP">EUR/GBP</option>
+      </select>
+    </div>
 
-// Reload chart when user changes pair
-document.getElementById("trade").addEventListener("change", loadChart);
-window.onload = loadChart;
+    <div class="chart-container">
+      <div class="live-indicator">
+        <div class="live-dot"></div>
+        <span>LIVE</span>
+      </div>
+      <canvas id="chart"></canvas>
+      <div id="tradeMarker"></div>
+    </div>
 
-// Example trade button
-document.querySelector(".buy").addEventListener("click", async () => {
-  const pair = document.getElementById("trade").value.replace("/", "") + "=X";
-  let res = await fetch("/trade", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pair: pair, amount: 10, action: "buy", mode: "demo" })
-  });
-  let data = await res.json();
-  alert(data.result);
-});
-</script>
+    <div>
+      <div class="time-amount">
+        <label for="timer">Time</label>
+        <select id="timer">
+          <option value="5">5 Seconds</option>
+          <option value="30">30 Seconds</option>
+          <option value="60">1 Minute</option>
+          <option value="300">5 Minutes</option>
+          <option value="900">15 Minutes</option>
+          <option value="1800">30 Minutes</option>
+          <option value="3600">1 Hour</option>
+          <option value="14400">4 Hours</option>
+          <option value="28800">8 Hours</option>
+          <option value="86400">24 Hours</option>
+          <option value="172800">48 Hours</option>
+        </select>
 
-    <script>
-        function openNav() {
-            document.getElementById('mySidenav').style.width = "250px";
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
-        const links = ``
-        document.querySelectorAll(".sidenav a");
-        links.forEach(link => {
-            link.addEventListener("click",
-                function() {
-                    links.forEach(l => l.classList.remove("active"));
-                        this.classList.add("active")
-                    
-                })
-            
-        })
-    </script>
-   <script>
-  const payamount = document.getElementById("payamt");
-  const payspan = document.getElementById("payspan");
-  const payBtn = document.getElementById("payBtn");
+        <label for="amount">Amount in USD</label>
+        <select id="amount">
+          <option value="1">$1</option>
+          <option value="5">$5</option>
+          <option value="10" selected>$10</option>
+          <option value="20">$20</option>
+          <option value="30">$30</option>
+          <option value="50">$50</option>
+          <option value="100">$100</option>
+          <option value="200">$200</option>
+          <option value="500">$500</option>
+          <option value="1000">$1000</option>
+        </select>
+      </div>
+      <p class="profit">Profit +95%</p>
+      <div class="buy-sell">
+        <button class="buy" id="buyBtn">⬆ BUY</button>
+        <p class="or">OR</p>
+        <button class="sell" id="sellBtn">⬇ SELL</button>
+      </div>
+    </div>
 
-  // Update span live as user types
-  payamount.addEventListener("input", () => {
-    payspan.textContent = payamount.value;
-  });
+    <div class="stats">
+      <div class="stat-item">
+        <div class="label">Total Trades</div>
+        <div class="value" id="totalTrades">0</div>
+      </div>
+      <div class="stat-item">
+        <div class="label">Wins</div>
+        <div class="value green" id="wins">0</div>
+      </div>
+      <div class="stat-item">
+        <div class="label">Losses</div>
+        <div class="value red" id="losses">0</div>
+      </div>
+    </div>
+  </div>
 
-  // On click validate
-  payBtn.addEventListener("click", () => {
-    if (payamount.value.trim() === "") {
-      alert("❌ Amount is required!");
-      payamount.focus();
-      return;
+  <script>
+    const ctx = document.getElementById("chart").getContext("2d");
+    let balance = parseFloat(window.localStorage.getItem('balance')) || 1000.0;
+    let stats = JSON.parse(window.localStorage.getItem('stats')) || { total: 0, wins: 0, losses: 0 };
+    let pairData = JSON.parse(window.localStorage.getItem('pairData')) || {};
+    let activeTrade = JSON.parse(window.localStorage.getItem('activeTrade')) || null;
+    let currentPair = window.localStorage.getItem('currentPair') || "EUR/USD";
+    let tradeLineDataset = null;
+    let countdownInterval = null;
+    let viewOffset = 0;
+    let isDragging = false;
+    let startX = 0;
+    let isLiveMode = true;
+    let lastUpdateTime = parseInt(window.localStorage.getItem('lastUpdateTime')) || Date.now();
+
+    function saveToStorage() {
+      window.localStorage.setItem('balance', balance.toFixed(2));
+      window.localStorage.setItem('activeTrade', JSON.stringify(activeTrade));
+      window.localStorage.setItem('stats', JSON.stringify(stats));
+      window.localStorage.setItem('pairData', JSON.stringify(pairData));
+      window.localStorage.setItem('currentPair', currentPair);
+      window.localStorage.setItem('lastUpdateTime', Date.now().toString());
     }
-    localStorage.setItem("payAmount", payamount.value);
 
-    // If not empty → go to pay.html
-    window.location.href = "pay.html";
-  });
-</script>
-   
-    <script src="./script.js" defer></script>
+    function updateBalanceDisplay() {
+      document.getElementById("balanceDisplay").innerText = balance.toFixed(2) + " 🔽";
+    }
+
+    function updateStatsDisplay() {
+      document.getElementById("totalTrades").innerText = stats.total;
+      document.getElementById("wins").innerText = stats.wins;
+      document.getElementById("losses").innerText = stats.losses;
+    }
+
+    function generateData(pair) {
+      if (!pairData[pair]) {
+        pairData[pair] = {
+          base: 1.0 + Math.random() * 0.2,
+          data: Array.from({ length: 500 }, () => 1 + (Math.random() - 0.5) * 0.01),
+          history: [],
+          seed: Math.random() * 1000,
+          phase: Math.random() * Math.PI * 2,
+          trend: (Math.random() - 0.5) * 0.0002
+        };
+        saveToStorage();
+      }
+      return pairData[pair];
+    }
+
+    // Simulate missed updates while page was closed
+    function simulateMissedUpdates() {
+      const now = Date.now();
+      const timeDiff = now - lastUpdateTime;
+      const missedUpdates = Math.floor(timeDiff / 200); // Average 200ms per update
+      
+      if (missedUpdates > 0 && missedUpdates < 10000) { // Cap at 10000 to prevent freezing
+        Object.keys(pairData).forEach(pair => {
+          const pairInfo = pairData[pair];
+          
+          // Ensure all required properties exist
+          if (!pairInfo.history) pairInfo.history = [];
+          if (!pairInfo.data) pairInfo.data = Array.from({ length: 500 }, () => 1 + (Math.random() - 0.5) * 0.01);
+          if (!pairInfo.phase) pairInfo.phase = Math.random() * Math.PI * 2;
+          if (!pairInfo.seed) pairInfo.seed = Math.random() * 1000;
+          if (!pairInfo.trend) pairInfo.trend = (Math.random() - 0.5) * 0.0002;
+          
+          for (let i = 0; i < missedUpdates; i++) {
+            const last = pairInfo.data[pairInfo.data.length - 1];
+            const time = (now - timeDiff + (i * 200)) / 1000;
+            const next = last + 
+              (Math.random() - 0.5) * 0.004 + 
+              Math.sin(time + pairInfo.phase) * 0.0008 + 
+              Math.cos(time * 0.5 + pairInfo.seed) * 0.0006 +
+              pairInfo.trend;
+            
+            pairInfo.history.push(pairInfo.data[0]);
+            if (pairInfo.history.length > 10000) pairInfo.history.shift();
+            
+            pairInfo.data.push(next);
+            pairInfo.data.shift();
+          }
+        });
+        saveToStorage();
+      }
+      lastUpdateTime = now;
+    }
+
+    const liveChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: Array.from({ length: 500 }, (_, i) => i),
+        datasets: [{
+          label: "Live " + currentPair,
+          data: generateData(currentPair).data,
+          borderColor: "#00ff88",
+          borderWidth: 2,
+          fill: false,
+          tension: 0.3,
+          pointRadius: 0,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        scales: {
+          x: { display: false },
+          y: {
+            display: true,
+            position: 'left',
+            grid: { color: "rgba(255,255,255,0.1)", lineWidth: 1 },
+            ticks: { 
+              color: "#ccc", 
+              font: { size: 11 },
+              padding: 8,
+              callback: function(value) {
+                return value.toFixed(5);
+              }
+            },
+          },
+        },
+        plugins: { 
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        layout: {
+          padding: {
+            right: 50
+          }
+        }
+      },
+    });
+
+    let speeds = [80, 120, 200, 300, 500, 150, 250, 400];
+    let speedIndex = 0;
+    let updateTimeout = null;
+    
+    function updateChart() {
+      const pairInfo = generateData(currentPair);
+      
+      if (isLiveMode) {
+        const { data, history, phase, seed, trend } = pairInfo;
+        const last = data[data.length - 1];
+        const time = Date.now() / 1000;
+        const next = last + 
+          (Math.random() - 0.5) * 0.004 + 
+          Math.sin(time + phase) * 0.0008 + 
+          Math.cos(time * 0.5 + seed) * 0.0006 +
+          trend;
+        
+        history.push(data[0]);
+        if (history.length > 10000) history.shift();
+        
+        data.push(next);
+        data.shift();
+        
+        // Force update the chart data
+        try {
+          for (let i = 0; i < data.length; i++) {
+            liveChart.data.datasets[0].data[i] = data[i];
+          }
+          
+          if (tradeLineDataset) {
+            const entryPrice = tradeLineDataset.data[0];
+            for (let i = 0; i < tradeLineDataset.data.length; i++) {
+              tradeLineDataset.data[i] = entryPrice;
+            }
+          }
+          
+          liveChart.update('none');
+        } catch (e) {
+          console.error("Chart update error:", e);
+        }
+
+        if (activeTrade && Date.now() >= activeTrade.endTime) {
+          const currentPrice = data[data.length - 1];
+          settleTrade(currentPrice);
+        }
+        
+        // Periodically save to storage
+        if (Math.random() < 0.05) {
+          saveToStorage();
+        }
+      }
+
+      speedIndex = (speedIndex + 1) % speeds.length;
+      updateTimeout = setTimeout(updateChart, speeds[speedIndex]);
+    }
+    
+    // Ensure chart keeps updating even if tab loses focus
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !updateTimeout) {
+        console.log("Restarting chart updates...");
+        updateChart();
+      }
+    });
+
+    // Touch and mouse drag for chart scrolling
+    const canvas = document.getElementById('chart');
+    
+    canvas.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      isLiveMode = false;
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      isLiveMode = false;
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - startX;
+      startX = e.clientX;
+      scrollChart(deltaX);
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const deltaX = e.touches[0].clientX - startX;
+      startX = e.touches[0].clientX;
+      scrollChart(deltaX);
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      isDragging = false;
+      if (viewOffset <= 0) {
+        viewOffset = 0;
+        isLiveMode = true;
+      }
+    });
+
+    canvas.addEventListener('touchend', () => {
+      isDragging = false;
+      if (viewOffset <= 0) {
+        viewOffset = 0;
+        isLiveMode = true;
+      }
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      isDragging = false;
+    });
+
+    function scrollChart(delta) {
+      const sensitivity = 2;
+      viewOffset -= Math.floor(delta / sensitivity);
+      
+      if (viewOffset < 0) viewOffset = 0;
+      
+      const { data, history } = generateData(currentPair);
+      
+      if (viewOffset > 0) {
+        const visibleData = [...history.slice(-viewOffset - 500, -viewOffset || undefined), ...data];
+        liveChart.data.datasets[0].data = visibleData.slice(-500);
+        
+        if (tradeLineDataset && activeTrade) {
+          tradeLineDataset.data = Array(500).fill(activeTrade.entryPrice);
+        }
+      } else {
+        liveChart.data.datasets[0].data = data;
+        if (tradeLineDataset && activeTrade) {
+          tradeLineDataset.data = Array(500).fill(activeTrade.entryPrice);
+        }
+      }
+      
+      liveChart.update();
+    }
+
+    document.getElementById("trade").addEventListener("change", (e) => {
+      currentPair = e.target.value;
+      generateData(currentPair); // Ensure pair data exists
+      liveChart.data.datasets[0].label = "Live " + currentPair;
+      liveChart.data.datasets[0].data = generateData(currentPair).data;
+      liveChart.update();
+      saveToStorage();
+    });
+
+    function startCountdown(duration) {
+      const markerDiv = document.getElementById("tradeMarker");
+      const countdownEl = markerDiv.querySelector('.countdown');
+      
+      if (countdownInterval) clearInterval(countdownInterval);
+      
+      countdownInterval = setInterval(() => {
+        if (!activeTrade) {
+          clearInterval(countdownInterval);
+          return;
+        }
+        
+        const remaining = Math.max(0, Math.ceil((activeTrade.endTime - Date.now()) / 1000));
+        
+        if (remaining <= 0) {
+          clearInterval(countdownInterval);
+          countdownEl.textContent = "Settling...";
+        } else {
+          const mins = Math.floor(remaining / 60);
+          const secs = remaining % 60;
+          countdownEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+      }, 100);
+    }
+
+    function startTrade(side) {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const duration = parseInt(document.getElementById("timer").value);
+
+      if (amount > balance) {
+        alert("Insufficient balance!");
+        return;
+      }
+
+      if (activeTrade) {
+        alert("Please wait for current trade to finish!");
+        return;
+      }
+
+      balance -= amount;
+      updateBalanceDisplay();
+
+      const entryPrice = liveChart.data.datasets[0].data.slice(-1)[0];
+
+      tradeLineDataset = {
+        label: side === "buy" ? "BUY Entry" : "SELL Entry",
+        data: Array(500).fill(entryPrice),
+        borderColor: side === "buy" ? "#00ff88" : "#ff4444",
+        borderWidth: 2,
+        borderDash: [5, 5],
+        pointRadius: 0,
+        fill: false,
+      };
+      
+      liveChart.data.datasets.push(tradeLineDataset);
+      liveChart.update();
+
+      activeTrade = { 
+        side, 
+        amount, 
+        entryPrice, 
+        endTime: Date.now() + duration * 1000,
+        pair: currentPair 
+      };
+      
+      saveToStorage();
+
+      const markerDiv = document.getElementById("tradeMarker");
+      markerDiv.className = `trade-marker ${side}`;
+      markerDiv.innerHTML = `
+        <div class="countdown">00:00</div>
+        <div class="entry-price">${side.toUpperCase()} @ ${entryPrice.toFixed(5)}</div>
+        <div class="entry-price">$${amount.toFixed(2)}</div>
+      `;
+      markerDiv.style.top = "50%";
+      markerDiv.style.transform = "translateY(-50%)";
+      
+      startCountdown(duration);
+      
+      document.getElementById("buyBtn").disabled = true;
+      document.getElementById("sellBtn").disabled = true;
+    }
+
+    function settleTrade(finalPrice) {
+      if (!activeTrade) return;
+      
+      console.log("Settling trade...", finalPrice);
+      
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+
+      const { side, amount, entryPrice } = activeTrade;
+      const won = (side === "buy" && finalPrice > entryPrice) || (side === "sell" && finalPrice < entryPrice);
+      const profit = amount * 0.95;
+      const total = won ? amount + profit : 0;
+
+      if (won) {
+        balance += total;
+        stats.wins++;
+        setTimeout(() => {
+          alert(`🎉 YOU WON!\n\nEntry: ${entryPrice.toFixed(5)}\nExit: ${finalPrice.toFixed(5)}\nProfit: +${profit.toFixed(2)}\nTotal Credited: ${total.toFixed(2)}`);
+        }, 100);
+      } else {
+        stats.losses++;
+        setTimeout(() => {
+          alert(`❌ YOU LOST!\n\nEntry: ${entryPrice.toFixed(5)}\nExit: ${finalPrice.toFixed(5)}\nLoss: -${amount.toFixed(2)}`);
+        }, 100);
+      }
+
+      stats.total++;
+      
+      // Clear the trade marker
+      document.getElementById("tradeMarker").innerHTML = "";
+      
+      // Remove trade line from chart
+      if (tradeLineDataset) {
+        const index = liveChart.data.datasets.indexOf(tradeLineDataset);
+        if (index > -1) {
+          liveChart.data.datasets.splice(index, 1);
+        }
+        tradeLineDataset = null;
+        liveChart.update();
+      }
+      
+      // Clear active trade
+      activeTrade = null;
+      
+      // Update displays
+      updateBalanceDisplay();
+      updateStatsDisplay();
+      saveToStorage();
+      
+      // Re-enable buttons
+      document.getElementById("buyBtn").disabled = false;
+      document.getElementById("sellBtn").disabled = false;
+    }
+
+    function restoreActiveTrade() {
+      if (activeTrade) {
+        const now = Date.now();
+        if (now >= activeTrade.endTime) {
+          const finalPrice = liveChart.data.datasets[0].data.slice(-1)[0];
+          settleTrade(finalPrice);
+        } else {
+          tradeLineDataset = {
+            label: activeTrade.side === "buy" ? "BUY Entry" : "SELL Entry",
+            data: Array(500).fill(activeTrade.entryPrice),
+            borderColor: activeTrade.side === "buy" ? "#00ff88" : "#ff4444",
+            borderWidth: 2,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            fill: false,
+          };
+          
+          liveChart.data.datasets.push(tradeLineDataset);
+          liveChart.update();
+
+          const markerDiv = document.getElementById("tradeMarker");
+          markerDiv.className = `trade-marker ${activeTrade.side}`;
+          markerDiv.innerHTML = `
+            <div class="countdown">00:00</div>
+            <div class="entry-price">${activeTrade.side.toUpperCase()} @ ${activeTrade.entryPrice.toFixed(5)}</div>
+            <div class="entry-price">$${activeTrade.amount.toFixed(2)}</div>
+          `;
+          markerDiv.style.top = "50%";
+          markerDiv.style.transform = "translateY(-50%)";
+          
+          startCountdown(Math.ceil((activeTrade.endTime - now) / 1000));
+          
+          document.getElementById("buyBtn").disabled = true;
+          document.getElementById("sellBtn").disabled = true;
+        }
+      }
+    }
+
+    document.getElementById("buyBtn").addEventListener("click", () => startTrade("buy"));
+    document.getElementById("sellBtn").addEventListener("click", () => startTrade("sell"));
+
+    // Set current pair in dropdown
+    document.getElementById("trade").value = currentPair;
+
+    // Initialize
+    simulateMissedUpdates();
+    updateBalanceDisplay();
+    updateStatsDisplay();
+    restoreActiveTrade();
+    updateChart();
+
+    // Save before page unload
+    window.addEventListener('beforeunload', () => {
+      saveToStorage();
+    });
+  </script>
 </body>
 </html>
-

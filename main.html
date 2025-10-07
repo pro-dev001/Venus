@@ -5,189 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Venus Trading</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: rgb(1,1,36);
-      color: white;
-      font-family: 'Arial', sans-serif;
-      overflow-x: hidden;
-    }
-    .mainpage {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding: 15px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 10px;
-    }
-    .headimg {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-    }
-    .real .amount p {
-      font-size: 12px;
-      color: #aaa;
-      margin-bottom: 5px;
-    }
-    .real .amount h1 {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .down {
-      font-size: 14px;
-      margin-left: 5px;
-    }
-    select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      background: rgba(255,255,255,0.1);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    select option {
-      background: rgb(1,1,36);
-    }
-    .chart-container {
-      position: relative;
-      width: 100%;
-      height: 400px;
-      margin: 20px 0;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      background: rgb(1,1,36);
-      overflow: hidden;
-      touch-action: pan-x;
-    }
-    #chart {
-      width: 100% !important;
-      height: 100% !important;
-      cursor: grab;
-    }
-    #chart:active {
-      cursor: grabbing;
-    }
-    .trade-marker {
-      position: absolute;
-      right: 10px;
-      background: rgba(0,0,0,0.8);
-      padding: 8px 12px;
-      border-radius: 5px;
-      font-size: 14px;
-      z-index: 10;
-      border-left: 3px solid;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .trade-marker.buy { border-color: #00ff88; }
-    .trade-marker.sell { border-color: #ff4444; }
-    .countdown {
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .entry-price {
-      font-size: 12px;
-      color: #aaa;
-    }
-    .time-amount {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .time-amount label {
-      font-size: 14px;
-      color: #aaa;
-      margin-bottom: 5px;
-    }
-    .profit {
-      text-align: center;
-      color: #00ff88;
-      font-size: 18px;
-      font-weight: bold;
-      margin: 20px 0;
-    }
-    .buy-sell {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-    .buy, .sell {
-      flex: 1;
-      padding: 18px;
-      font-size: 18px;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .buy {
-      background: linear-gradient(135deg, #00ff88, #00cc66);
-      color: #000;
-    }
-    .buy:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,255,136,0.4);
-    }
-    .buy:disabled {
-      background: #555;
-      cursor: not-allowed;
-      transform: none;
-    }
-    .sell {
-      background: linear-gradient(135deg, #ff4444, #cc0000);
-      color: white;
-    }
-    .sell:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255,68,68,0.4);
-    }
-    .sell:disabled {
-      background: #555;
-      cursor: not-allowed;
-      transform: none;
-    }
-    .or {
-      font-size: 14px;
-      color: #666;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 8px;
-    }
-    .stat-item {
-      text-align: center;
-    }
-    .stat-item .label {
-      font-size: 11px;
-      color: #aaa;
-      margin-bottom: 5px;
-    }
-    .stat-item .value {
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .stat-item .value.green { color: #00ff88; }
-    .stat-item .value.red { color: #ff4444; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="mainpage">
@@ -218,6 +36,10 @@
     </div>
 
     <div class="chart-container">
+      <div class="live-indicator">
+        <div class="live-dot"></div>
+        <span>LIVE</span>
+      </div>
       <canvas id="chart"></canvas>
       <div id="tradeMarker"></div>
     </div>
@@ -335,6 +157,14 @@
       if (missedUpdates > 0 && missedUpdates < 10000) { // Cap at 10000 to prevent freezing
         Object.keys(pairData).forEach(pair => {
           const pairInfo = pairData[pair];
+          
+          // Ensure all required properties exist
+          if (!pairInfo.history) pairInfo.history = [];
+          if (!pairInfo.data) pairInfo.data = Array.from({ length: 500 }, () => 1 + (Math.random() - 0.5) * 0.01);
+          if (!pairInfo.phase) pairInfo.phase = Math.random() * Math.PI * 2;
+          if (!pairInfo.seed) pairInfo.seed = Math.random() * 1000;
+          if (!pairInfo.trend) pairInfo.trend = (Math.random() - 0.5) * 0.0002;
+          
           for (let i = 0; i < missedUpdates; i++) {
             const last = pairInfo.data[pairInfo.data.length - 1];
             const time = (now - timeDiff + (i * 200)) / 1000;
@@ -404,10 +234,13 @@
 
     let speeds = [80, 120, 200, 300, 500, 150, 250, 400];
     let speedIndex = 0;
+    let updateTimeout = null;
     
     function updateChart() {
+      const pairInfo = generateData(currentPair);
+      
       if (isLiveMode) {
-        const { data, history, phase, seed, trend } = generateData(currentPair);
+        const { data, history, phase, seed, trend } = pairInfo;
         const last = data[data.length - 1];
         const time = Date.now() / 1000;
         const next = last + 
@@ -422,28 +255,46 @@
         data.push(next);
         data.shift();
         
-        liveChart.data.datasets[0].data = data;
-        
-        if (tradeLineDataset) {
-          tradeLineDataset.data.push(tradeLineDataset.data[0]);
-          tradeLineDataset.data.shift();
+        // Force update the chart data
+        try {
+          for (let i = 0; i < data.length; i++) {
+            liveChart.data.datasets[0].data[i] = data[i];
+          }
+          
+          if (tradeLineDataset) {
+            const entryPrice = tradeLineDataset.data[0];
+            for (let i = 0; i < tradeLineDataset.data.length; i++) {
+              tradeLineDataset.data[i] = entryPrice;
+            }
+          }
+          
+          liveChart.update('none');
+        } catch (e) {
+          console.error("Chart update error:", e);
         }
-        
-        liveChart.update();
 
         if (activeTrade && Date.now() >= activeTrade.endTime) {
-          settleTrade(next);
+          const currentPrice = data[data.length - 1];
+          settleTrade(currentPrice);
         }
         
         // Periodically save to storage
-        if (Math.random() < 0.05) { // Save ~5% of the time to avoid too many writes
+        if (Math.random() < 0.05) {
           saveToStorage();
         }
       }
 
       speedIndex = (speedIndex + 1) % speeds.length;
-      setTimeout(updateChart, speeds[speedIndex]);
+      updateTimeout = setTimeout(updateChart, speeds[speedIndex]);
     }
+    
+    // Ensure chart keeps updating even if tab loses focus
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !updateTimeout) {
+        console.log("Restarting chart updates...");
+        updateChart();
+      }
+    });
 
     // Touch and mouse drag for chart scrolling
     const canvas = document.getElementById('chart');
@@ -535,6 +386,11 @@
       if (countdownInterval) clearInterval(countdownInterval);
       
       countdownInterval = setInterval(() => {
+        if (!activeTrade) {
+          clearInterval(countdownInterval);
+          return;
+        }
+        
         const remaining = Math.max(0, Math.ceil((activeTrade.endTime - Date.now()) / 1000));
         
         if (remaining <= 0) {
@@ -545,7 +401,7 @@
           const secs = remaining % 60;
           countdownEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
         }
-      }, 1000);
+      }, 100);
     }
 
     function startTrade(side) {
@@ -609,6 +465,8 @@
     function settleTrade(finalPrice) {
       if (!activeTrade) return;
       
+      console.log("Settling trade...", finalPrice);
+      
       if (countdownInterval) {
         clearInterval(countdownInterval);
         countdownInterval = null;
@@ -622,16 +480,22 @@
       if (won) {
         balance += total;
         stats.wins++;
-        alert(`🎉 YOU WON!\n\nEntry: $${entryPrice.toFixed(5)}\nExit: $${finalPrice.toFixed(5)}\nProfit: +$${profit.toFixed(2)}\nTotal Credited: $${total.toFixed(2)}`);
+        setTimeout(() => {
+          alert(`🎉 YOU WON!\n\nEntry: ${entryPrice.toFixed(5)}\nExit: ${finalPrice.toFixed(5)}\nProfit: +${profit.toFixed(2)}\nTotal Credited: ${total.toFixed(2)}`);
+        }, 100);
       } else {
         stats.losses++;
-        alert(`❌ YOU LOST!\n\nEntry: $${entryPrice.toFixed(5)}\nExit: $${finalPrice.toFixed(5)}\nLoss: -$${amount.toFixed(2)}`);
+        setTimeout(() => {
+          alert(`❌ YOU LOST!\n\nEntry: ${entryPrice.toFixed(5)}\nExit: ${finalPrice.toFixed(5)}\nLoss: -${amount.toFixed(2)}`);
+        }, 100);
       }
 
       stats.total++;
-      updateBalanceDisplay();
-      updateStatsDisplay();
-
+      
+      // Clear the trade marker
+      document.getElementById("tradeMarker").innerHTML = "";
+      
+      // Remove trade line from chart
       if (tradeLineDataset) {
         const index = liveChart.data.datasets.indexOf(tradeLineDataset);
         if (index > -1) {
@@ -640,11 +504,16 @@
         tradeLineDataset = null;
         liveChart.update();
       }
-
-      document.getElementById("tradeMarker").innerHTML = "";
+      
+      // Clear active trade
       activeTrade = null;
+      
+      // Update displays
+      updateBalanceDisplay();
+      updateStatsDisplay();
       saveToStorage();
       
+      // Re-enable buttons
       document.getElementById("buyBtn").disabled = false;
       document.getElementById("sellBtn").disabled = false;
     }
