@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- API BASE (kept from your code) ---
-  const apiBase = "http://localhost:4000/api/auth";
+  // --- API BASE (UPDATED FOR RENDER DEPLOYMENT) ---
+  const apiBase = "https://venus-backend-2.onrender.com/api/auth";
 
   // --- Validation Helpers ---
   function isValidEmail(email) {
@@ -185,9 +185,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
 });
-
-
-
-

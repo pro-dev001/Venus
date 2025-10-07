@@ -6,11 +6,12 @@ body {
   flex-direction: column;
   justify-content: center;
   min-height: 100vh; /* ensures vertical centering */
+  overflow: hidden;
 }
 
 /* ----------- Head Section ----------- */
 .head {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   display: flex;
   justify-content: center;
   gap: 10px;
