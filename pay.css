@@ -136,6 +136,15 @@ body {
   color: blue;
 }
 
+.payamt{
+  height: 30px;
+  width: 110px;
+  padding-left: 10px;
+  border: none;
+  background-color: rgb(1, 1, 36);
+  color: white;
+}
+
 /* Animation */
 @keyframes popIn {
   from {

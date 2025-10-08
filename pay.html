@@ -51,46 +51,7 @@
     </div>
   </div>
 
-  <script>
-    const verifyBtn = document.querySelector(".verify");
-    const popup = document.getElementById("popup");
-    const closeBtn = document.getElementById("closeBtn");
-
-    // show popup
-    verifyBtn.addEventListener("click", () => {
-      popup.classList.add("show");
-    });
-
-    // hide popup
-    closeBtn.addEventListener("click", () => {
-      popup.classList.remove("show");
-      location.href = "main.html"
-    });
-  </script>
-
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const payer = document.getElementById("payer");
-
-    // Get saved USD amount from localStorage
-    const storedAmount = localStorage.getItem("payAmount");
-
-    if (storedAmount) {
-      // Conversion rate
-      const rate = 1600; // 1 USD = ₦1600
-      const usd = Number(storedAmount);
-      const ngn = usd * rate;
-
-      // Show both USD and NGN
-      payer.textContent = `$${usd} = ₦${ngn.toLocaleString()}`;
-
-      // Clear after showing
-      localStorage.removeItem("payAmount");
-    } else {
-      payer.textContent = "No amount entered";
-    }
-  });
-</script>
+  
 
 </body>
 </html>

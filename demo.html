@@ -3,18 +3,616 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Venus Trading</title>
+  <title>Venus Trading - Demo Account</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: rgb(1,1,36);
+      color: white;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .mainpage {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 15px;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      
+    }
+    .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .left-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .headimg {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .headimg:hover {
+      transform: scale(1.1);
+    }
+    .user-email {
+      font-size: 13px;
+      color: #aaa;
+    }
+    .real {
+      cursor: pointer;
+    }
+    .real .amount p {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+    .real .amount h1 {
+      font-size: 24px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .real:hover .amount h1 {
+      color: #00ff88;
+    }
+    .down {
+      font-size: 14px;
+      margin-left: 5px;
+      transition: transform 0.3s;
+      display: inline-block;
+    }
+    .real:hover .down {
+      transform: rotate(180deg);
+    }
+    
+    /* Side Panels */
+    .side-panel {
+      position: fixed;
+      top: 0;
+      width: 280px;
+      height: 100vh;
+      background: rgb(1,1,36);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .side-panel-left {
+      left: 0;
+      transform: translateX(-100%);
+    }
+    .side-panel-left.active {
+      transform: translateX(0);
+    }
+    .side-panel-right {
+      right: 0;
+      transform: translateX(100%);
+    }
+    .side-panel-right.active {
+      transform: translateX(0);
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      z-index: 999;
+      display: none;
+    }
+    .overlay.active {
+      display: block;
+    }
+    .panel-header {
+      padding: 20px;
+      background: rgba(0,255,136,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-header h2 {
+      font-size: 20px;
+      color: #00ff88;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .close-btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .panel-content {
+      padding: 20px;
+    }
+    .menu-link {
+      display: block;
+      padding: 15px;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s;
+      border-left: 3px solid transparent;
+    }
+    .menu-link:hover {
+      background: rgba(0,255,136,0.1);
+      border-left-color: #00ff88;
+      transform: translateX(5px);
+    }
+    .panel-button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #00ff88, #00cc66);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .panel-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,255,136,0.4);
+    }
+    .panel-button.secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    .balance-info {
+      margin-bottom: 20px;
+    }
+    .balance-info p {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+    .balance-select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .balance-input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    select option {
+      background: rgb(1,1,36);
+    }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      margin: 10px 0;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(0,20,40,0.4) 0%, rgba(0,10,30,0.6) 100%);
+      overflow: hidden;
+      touch-action: pan-x;
+      min-height: 250px;
+    }
+    #chart {
+      width: 100% !important;
+      height: 100% !important;
+      cursor: grab;
+    }
+    #chart:active {
+      cursor: grabbing;
+    }
+    .live-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,255,136,0.2);
+      border: 1px solid #00ff88;
+      border-radius: 5px;
+      padding: 5px 10px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 5;
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #00ff88;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .trade-marker {
+      position: absolute;
+      right: 10px;
+      background: rgba(0,0,0,0.8);
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 14px;
+      z-index: 10;
+      border-left: 3px solid;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .trade-marker.buy { border-color: #00ff88; }
+    .trade-marker.sell { border-color: #ff4444; }
+    .countdown {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .entry-price {
+      font-size: 12px;
+      color: #aaa;
+    }
+    .controls-section {
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding-bottom: 10px;
+    }
+    .time-amount {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .time-amount label {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 3px;
+    }
+    .profit {
+      text-align: center;
+      color: #00ff88;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 12px 0;
+    }
+    .buy-sell {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .buy, .sell {
+      flex: 1;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .buy {
+      background: linear-gradient(135deg, #00ff88, #00cc66);
+      color: #000;
+    }
+    .buy:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,255,136,0.4);
+    }
+    .buy:disabled {
+      background: #555;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .sell {
+      background: linear-gradient(135deg, #ff4444, #cc0000);
+      color: white;
+    }
+    .sell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255,68,68,0.4);
+    }
+    .sell:disabled {
+      background: #555;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .or {
+      font-size: 12px;
+      color: #666;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-item .label {
+      font-size: 10px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+    .stat-item .value {
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .stat-item .value.green { color: #00ff88; }
+    .stat-item .value.red { color: #ff4444; }
+
+    /* New Styles for Deposit/Withdraw */
+    .payment-container {
+      text-align: center;
+      margin: 20px 0;
+      position: relative;
+    }
+    .loader {
+      width: 50px;
+      height: 50px;
+      margin: 10px auto;
+    }
+    .paydiv {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .paydetails {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .paydetails:last-child {
+      border-bottom: none;
+    }
+    .verify {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #00ff88, #00cc66);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-content {
+      background: rgb(1,1,36);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid #00ff88;
+      max-width: 300px;
+      width: 90%;
+    }
+    .hidden {
+      display: none;
+    }
+
+    /* Dropdown Styles */
+    .dropdown-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgb(1,1,36);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 20px;
+      z-index: 2000;
+      max-width: 400px;
+      width: 90%;
+      display: none;
+    }
+    .dropdown-container.active {
+      display: block;
+    }
+    .dropdown-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .dropdown-header h2 {
+      color: #00ff88;
+      font-size: 20px;
+    }
+  </style>
 </head>
 <body>
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+  
+  <!-- Left Side Panel (Menu) -->
+  <div class="side-panel side-panel-left" id="leftPanel">
+    <div class="panel-header">
+      <h2>Menu</h2>
+      <button class="close-btn" onclick="closeLeftPanel()">×</button>
+    </div>
+    <div class="panel-content">
+      <a href="main.html" class="menu-link">📊 Real Account</a>
+      <a href="demo.html" class="menu-link">📈 Demo Account</a>
+      <a href="javascript:void(0)" class="menu-link" onclick="openDeposit()">💰 Deposit</a>
+      <a href="javascript:void(0)" class="menu-link" onclick="openWithdraw()">💳 Withdraw</a>
+      <a href="login.html" class="menu-link">⚙️ Logout</a>
+    </div>
+  </div>
+  
+  <!-- Right Side Panel (Balance) -->
+  <div class="side-panel side-panel-right" id="rightPanel">
+    <div class="panel-header">
+      <h2 id="panelTitle">Balance</h2>
+      <button class="close-btn" onclick="closeRightPanel()">×</button>
+    </div>
+    <div class="panel-content" id="panelContent">
+      <!-- Default Balance Content -->
+      <div class="balance-info">
+        <p>Current Balance</p>
+        <h1 id="panelBalance" style="font-size: 32px; color: #00ff88;">N10000.00</h1>
+      </div>
+      
+      <p style="margin-top: 20px; color: #aaa; font-size: 12px;">Account Type</p>
+      <select class="balance-select" id="accountType">
+        <option value="real">Real Account</option>
+        <option value="demo">Demo Account</option>
+      </select>
+      
+      <p style="margin-top: 15px; color: #aaa; font-size: 12px;">Add Funds</p>
+      <input type="number" class="balance-input" id="depositAmount" placeholder="Enter amount" value="1000" />
+      
+      <button class="panel-button" onclick="processDeposit()">Deposit Now</button>
+    </div>
+  </div>
+
+  <!-- Deposit Dropdown -->
+  <div class="dropdown-container" id="depositDropdown">
+    <div class="dropdown-header">
+      <h2>Deposit Funds</h2>
+      <button class="close-btn" onclick="closeDropdown('depositDropdown')">×</button>
+    </div>
+    <div class="payment-container">
+      <div class="balance-info">
+        <p>Current Balance</p>
+        <h1 style="font-size: 32px; color: #00ff88;">N<span id="dropdownBalance">10000.00</span></h1>
+      </div>
+      
+      <p style="margin-top: 20px; color: #aaa; font-size: 12px;">Account Type</p>
+      <select class="balance-select" id="dropdownAccountType">
+        <option value="real">Real Account</option>
+        <option value="demo">Demo Account</option>
+      </select>
+      
+      <p style="margin-top: 15px; color: #aaa; font-size: 12px;">Add Funds</p>
+      <input type="number" class="balance-input" id="dropdownDepositAmount" placeholder="Enter amount" value="1000" />
+      
+      <button class="panel-button" onclick="processDropdownDeposit()">Deposit Now</button>
+    </div>
+  </div>
+
+  <!-- Withdraw Dropdown -->
+  <div class="dropdown-container" id="withdrawDropdown">
+    <div class="dropdown-header">
+      <h2>Withdraw Funds</h2>
+      <button class="close-btn" onclick="closeDropdown('withdrawDropdown')">×</button>
+    </div>
+    <div class="payment-container">
+      <h3 style="font-size: 13px;">Withdraw Funds</h3>
+      
+      <div class="paydiv">
+        <div class="paydetails">
+          <p style="font-size: 12px;">Select Bank</p>
+          <select id="bankSelect" style="background: rgba(255,255,255,0.1); color: white; border: none; padding: 5px; border-radius: 5px; width: 150px;" >
+            <option value="access">Access Bank</option>
+            <option value="zenith">Zenith Bank</option>
+            <option value="uba">UBA</option>
+            <option value="firstbank">First Bank</option>
+            <option value="gtb">GTBank</option>
+            <option value="palmPay">PalmPay</option>
+            <option value="opay">Opay</option>
+            <option value="moniepoint">Moniepoint</option>
+            <option value="union bank">Union bank</option>
+            <option value="Sterling">Sterling</option>
+            <option value="Wema">Wema</option>
+            <option value="smartcash">Smartcash</option>
+            <option value="eco bank">Eco bank</option>
+            <option value="MOMO PSB">MOMO PSB</option>
+            <option value="FCMB">FCMB</option>
+            <option value="TENN">TENN</option>
+          </select>
+        </div>
+        <div class="paydetails">
+          <p style="font-size: 13px;">Account Number</p>
+          <input type="text" id="accountNumber" placeholder="Enter account number" style="background: rgba(255,255,255,0.1); color: white; border: none; padding: 5px; border-radius: 5px; width: 150px;">
+        </div>
+        <div class="paydetails">
+          <p style="font-size: 12px;">Amount to Withdraw</p>
+          <input type="number" id="withdrawAmount" placeholder="Enter amount" style="background: rgba(255,255,255,0.1); color: white; border: none; padding: 5px; border-radius: 5px; width: 150px;">
+        </div>
+      </div>
+
+      <div>
+        <button class="verify" onclick="processWithdrawal()">Withdraw Now</button>
+      </div>
+    </div>
+  </div>
+
   <div class="mainpage">
     <div class="head">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300ff88'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='%23000' font-weight='bold'%3EV%3C/text%3E%3C/svg%3E" alt="Venus" class="headimg" />
-      <div class="real">
+      <div class="left-section">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300ff88'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='%23000' font-weight='bold'%3EV%3C/text%3E%3C/svg%3E" alt="Venus" class="headimg" onclick="openLeftPanel()" />
+        <p class="user-email" id="userEmail">user@example.com</p>
+      </div>
+      <div class="real" onclick="openRightPanel()">
         <div class="amount">
-          <p>Real USD</p>
-          <h1 id="balanceDisplay">1000.00 <span class="down">🔽</span></h1>
+          <p>Demo NGN</p>
+          <h1 id="balanceDisplay">10000.00 <span class="down">🔽</span></h1>
         </div>
       </div>
     </div>
@@ -44,7 +642,7 @@
       <div id="tradeMarker"></div>
     </div>
 
-    <div>
+    <div class="controls-section">
       <div class="time-amount">
         <label for="timer">Time</label>
         <select id="timer">
@@ -52,27 +650,16 @@
           <option value="30">30 Seconds</option>
           <option value="60">1 Minute</option>
           <option value="300">5 Minutes</option>
-          <option value="900">15 Minutes</option>
-          <option value="1800">30 Minutes</option>
-          <option value="3600">1 Hour</option>
-          <option value="14400">4 Hours</option>
-          <option value="28800">8 Hours</option>
-          <option value="86400">24 Hours</option>
-          <option value="172800">48 Hours</option>
         </select>
 
-        <label for="amount">Amount in USD</label>
+        <label for="amount">Amount in NGN</label>
         <select id="amount">
-          <option value="1">$1</option>
-          <option value="5">$5</option>
-          <option value="10" selected>$10</option>
-          <option value="20">$20</option>
-          <option value="30">$30</option>
-          <option value="50">$50</option>
-          <option value="100">$100</option>
-          <option value="200">$200</option>
-          <option value="500">$500</option>
-          <option value="1000">$1000</option>
+          <option value="100">N100</option>
+          <option value="500">N500</option>
+          <option value="1000" selected>N1000</option>
+          <option value="2000">N2000</option>
+          <option value="5000">N5000</option>
+          <option value="10000">N10000</option>
         </select>
       </div>
       <p class="profit">Profit +95%</p>
@@ -81,50 +668,160 @@
         <p class="or">OR</p>
         <button class="sell" id="sellBtn">⬇ SELL</button>
       </div>
-    </div>
 
-    <div class="stats">
-      <div class="stat-item">
-        <div class="label">Total Trades</div>
-        <div class="value" id="totalTrades">0</div>
-      </div>
-      <div class="stat-item">
-        <div class="label">Wins</div>
-        <div class="value green" id="wins">0</div>
-      </div>
-      <div class="stat-item">
-        <div class="label">Losses</div>
-        <div class="value red" id="losses">0</div>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="label">Total Trades</div>
+          <div class="value" id="totalTrades">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="label">Wins</div>
+          <div class="value green" id="wins">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="label">Losses</div>
+          <div class="value red" id="losses">0</div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
+    // Load or set user email
+    let userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+    document.getElementById('userEmail').textContent = userEmail;
+
+    // Panel Controls
+    function openLeftPanel() {
+      document.getElementById('leftPanel').classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    }
+    
+    function closeLeftPanel() {
+      document.getElementById('leftPanel').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+    
+    function openRightPanel() {
+      document.getElementById('rightPanel').classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+      document.getElementById('panelBalance').textContent = 'N' + balance.toFixed(2);
+    }
+    
+    function closeRightPanel() {
+      document.getElementById('rightPanel').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+
+    // Dropdown Controls
+    function openDropdown(dropdownId) {
+      document.getElementById(dropdownId).classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    }
+    
+    function closeDropdown(dropdownId) {
+      document.getElementById(dropdownId).classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+    
+    document.getElementById('overlay').addEventListener('click', function() {
+      closeLeftPanel();
+      closeRightPanel();
+      closeDropdown('depositDropdown');
+      closeDropdown('withdrawDropdown');
+    });
+
+    // New Functions for Deposit/Withdraw
+    function openDeposit() {
+      closeLeftPanel();
+      document.getElementById('dropdownBalance').textContent = balance.toFixed(2);
+      openDropdown('depositDropdown');
+    }
+
+    function openWithdraw() {
+      closeLeftPanel();
+      openDropdown('withdrawDropdown');
+    }
+
+    function processDropdownDeposit() {
+      const accountType = document.getElementById('dropdownAccountType').value;
+      const amount = parseFloat(document.getElementById('dropdownDepositAmount').value);
+      
+      if (isNaN(amount) || amount <= 0) {
+        alert('Please enter a valid amount');
+        return;
+      }
+      
+      if (accountType === 'demo') {
+        // For demo account - credit immediately
+        balance += amount;
+        updateBalanceDisplay();
+        saveToStorage();
+        alert(`N${amount.toFixed(2)} has been credited to your demo account!`);
+        closeDropdown('depositDropdown');
+      } else {
+        // For real account - redirect to main.html
+        alert('Please switch to your real account to deposit real funds');
+        closeDropdown('depositDropdown');
+      }
+    }
+
+    function processDeposit() {
+      const accountType = document.getElementById('accountType').value;
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      
+      if (isNaN(amount) || amount <= 0) {
+        alert('Please enter a valid amount');
+        return;
+      }
+      
+      if (accountType === 'demo') {
+        // For demo account - credit immediately
+        balance += amount;
+        updateBalanceDisplay();
+        saveToStorage();
+        alert(`N${amount.toFixed(2)} has been credited to your demo account!`);
+        closeRightPanel();
+      } else {
+        // For real account - redirect to main.html
+        alert('Please switch to your real account to deposit real funds');
+        closeRightPanel();
+      }
+    }
+
+    function processWithdrawal() {
+      alert('This is a demo account. Switch to your real account to withdraw.');
+      closeDropdown('withdrawDropdown');
+    }
+
+    // Demo Account Trading Code
     const ctx = document.getElementById("chart").getContext("2d");
-    let balance = parseFloat(window.localStorage.getItem('balance')) || 1000.0;
-    let stats = JSON.parse(window.localStorage.getItem('stats')) || { total: 0, wins: 0, losses: 0 };
-    let pairData = JSON.parse(window.localStorage.getItem('pairData')) || {};
-    let activeTrade = JSON.parse(window.localStorage.getItem('activeTrade')) || null;
-    let currentPair = window.localStorage.getItem('currentPair') || "EUR/USD";
+    let balance = parseFloat(window.localStorage.getItem('demoBalance')) || 10000.0;
+    let stats = JSON.parse(window.localStorage.getItem('demoStats')) || { total: 0, wins: 0, losses: 0 };
+    let pairData = JSON.parse(window.localStorage.getItem('demoPairData')) || {};
+    let activeTrade = JSON.parse(window.localStorage.getItem('demoActiveTrade')) || null;
+    let currentPair = window.localStorage.getItem('demoCurrentPair') || "EUR/USD";
     let tradeLineDataset = null;
     let countdownInterval = null;
     let viewOffset = 0;
     let isDragging = false;
     let startX = 0;
     let isLiveMode = true;
-    let lastUpdateTime = parseInt(window.localStorage.getItem('lastUpdateTime')) || Date.now();
+    let lastUpdateTime = parseInt(window.localStorage.getItem('demoLastUpdateTime')) || Date.now();
 
     function saveToStorage() {
-      window.localStorage.setItem('balance', balance.toFixed(2));
-      window.localStorage.setItem('activeTrade', JSON.stringify(activeTrade));
-      window.localStorage.setItem('stats', JSON.stringify(stats));
-      window.localStorage.setItem('pairData', JSON.stringify(pairData));
-      window.localStorage.setItem('currentPair', currentPair);
-      window.localStorage.setItem('lastUpdateTime', Date.now().toString());
+      window.localStorage.setItem('demoBalance', balance.toFixed(2));
+      window.localStorage.setItem('demoActiveTrade', JSON.stringify(activeTrade));
+      window.localStorage.setItem('demoStats', JSON.stringify(stats));
+      window.localStorage.setItem('demoPairData', JSON.stringify(pairData));
+      window.localStorage.setItem('demoCurrentPair', currentPair);
+      window.localStorage.setItem('demoLastUpdateTime', Date.now().toString());
     }
 
     function updateBalanceDisplay() {
       document.getElementById("balanceDisplay").innerText = balance.toFixed(2) + " 🔽";
+      document.getElementById("panelBalance").textContent = "N" + balance.toFixed(2);
+      document.getElementById("dropdownBalance").textContent = balance.toFixed(2);
     }
 
     function updateStatsDisplay() {
@@ -148,17 +845,15 @@
       return pairData[pair];
     }
 
-    // Simulate missed updates while page was closed
     function simulateMissedUpdates() {
       const now = Date.now();
       const timeDiff = now - lastUpdateTime;
-      const missedUpdates = Math.floor(timeDiff / 200); // Average 200ms per update
+      const missedUpdates = Math.floor(timeDiff / 200);
       
-      if (missedUpdates > 0 && missedUpdates < 10000) { // Cap at 10000 to prevent freezing
+      if (missedUpdates > 0 && missedUpdates < 10000) {
         Object.keys(pairData).forEach(pair => {
           const pairInfo = pairData[pair];
           
-          // Ensure all required properties exist
           if (!pairInfo.history) pairInfo.history = [];
           if (!pairInfo.data) pairInfo.data = Array.from({ length: 500 }, () => 1 + (Math.random() - 0.5) * 0.01);
           if (!pairInfo.phase) pairInfo.phase = Math.random() * Math.PI * 2;
@@ -255,7 +950,6 @@
         data.push(next);
         data.shift();
         
-        // Force update the chart data
         try {
           for (let i = 0; i < data.length; i++) {
             liveChart.data.datasets[0].data[i] = data[i];
@@ -278,7 +972,6 @@
           settleTrade(currentPrice);
         }
         
-        // Periodically save to storage
         if (Math.random() < 0.05) {
           saveToStorage();
         }
@@ -288,7 +981,6 @@
       updateTimeout = setTimeout(updateChart, speeds[speedIndex]);
     }
     
-    // Ensure chart keeps updating even if tab loses focus
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && !updateTimeout) {
         console.log("Restarting chart updates...");
@@ -296,7 +988,6 @@
       }
     });
 
-    // Touch and mouse drag for chart scrolling
     const canvas = document.getElementById('chart');
     
     canvas.addEventListener('mousedown', (e) => {
@@ -372,7 +1063,7 @@
 
     document.getElementById("trade").addEventListener("change", (e) => {
       currentPair = e.target.value;
-      generateData(currentPair); // Ensure pair data exists
+      generateData(currentPair);
       liveChart.data.datasets[0].label = "Live " + currentPair;
       liveChart.data.datasets[0].data = generateData(currentPair).data;
       liveChart.update();
@@ -451,7 +1142,7 @@
       markerDiv.innerHTML = `
         <div class="countdown">00:00</div>
         <div class="entry-price">${side.toUpperCase()} @ ${entryPrice.toFixed(5)}</div>
-        <div class="entry-price">$${amount.toFixed(2)}</div>
+        <div class="entry-price">N${amount.toFixed(2)}</div>
       `;
       markerDiv.style.top = "50%";
       markerDiv.style.transform = "translateY(-50%)";
@@ -481,21 +1172,19 @@
         balance += total;
         stats.wins++;
         setTimeout(() => {
-          alert(`🎉 YOU WON!\n\nEntry: ${entryPrice.toFixed(5)}\nExit: ${finalPrice.toFixed(5)}\nProfit: +${profit.toFixed(2)}\nTotal Credited: ${total.toFixed(2)}`);
+          alert(`🎉 YOU WON!\n\nEntry: ${entryPrice.toFixed(5)}\nExit: ${finalPrice.toFixed(5)}\nProfit: +N${profit.toFixed(2)}\nTotal Credited: N${total.toFixed(2)}`);
         }, 100);
       } else {
         stats.losses++;
         setTimeout(() => {
-          alert(`❌ YOU LOST!\n\nEntry: ${entryPrice.toFixed(5)}\nExit: ${finalPrice.toFixed(5)}\nLoss: -${amount.toFixed(2)}`);
+          alert(`❌ YOU LOST!\n\nEntry: ${entryPrice.toFixed(5)}\nExit: ${finalPrice.toFixed(5)}\nLoss: -N${amount.toFixed(2)}`);
         }, 100);
       }
 
       stats.total++;
       
-      // Clear the trade marker
       document.getElementById("tradeMarker").innerHTML = "";
       
-      // Remove trade line from chart
       if (tradeLineDataset) {
         const index = liveChart.data.datasets.indexOf(tradeLineDataset);
         if (index > -1) {
@@ -505,15 +1194,12 @@
         liveChart.update();
       }
       
-      // Clear active trade
       activeTrade = null;
       
-      // Update displays
       updateBalanceDisplay();
       updateStatsDisplay();
       saveToStorage();
       
-      // Re-enable buttons
       document.getElementById("buyBtn").disabled = false;
       document.getElementById("sellBtn").disabled = false;
     }
@@ -543,7 +1229,7 @@
           markerDiv.innerHTML = `
             <div class="countdown">00:00</div>
             <div class="entry-price">${activeTrade.side.toUpperCase()} @ ${activeTrade.entryPrice.toFixed(5)}</div>
-            <div class="entry-price">$${activeTrade.amount.toFixed(2)}</div>
+            <div class="entry-price">N${activeTrade.amount.toFixed(2)}</div>
           `;
           markerDiv.style.top = "50%";
           markerDiv.style.transform = "translateY(-50%)";
@@ -559,17 +1245,14 @@
     document.getElementById("buyBtn").addEventListener("click", () => startTrade("buy"));
     document.getElementById("sellBtn").addEventListener("click", () => startTrade("sell"));
 
-    // Set current pair in dropdown
     document.getElementById("trade").value = currentPair;
 
-    // Initialize
     simulateMissedUpdates();
     updateBalanceDisplay();
     updateStatsDisplay();
     restoreActiveTrade();
     updateChart();
 
-    // Save before page unload
     window.addEventListener('beforeunload', () => {
       saveToStorage();
     });

@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- API BASE (UPDATED FOR RENDER DEPLOYMENT) ---
-  const apiBase = "https://venus-backend-2.onrender.com/api/auth";
+  const apiBase = "https://venus-backend-main.onrender.com";
 
   // --- Validation Helpers ---
   function isValidEmail(email) {
